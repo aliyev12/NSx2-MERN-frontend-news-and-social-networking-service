@@ -13,7 +13,7 @@ export function configureStore() {
         //... and the second one is for being able to use Chrome "Redux" extention in the browser
         // The content of that one is just coppied and pasted from github - just search for redux chrome extention : https://github.com/zalmoxisus/redux-devtools-extension
         compose(applyMiddleware(thunk),
-        window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+        window.devToolsExtension ? window.devToolsExtension() : f => f
         ));
 
         // In this file I brought in root redurer, redux tools, middleware including thunk
