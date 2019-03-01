@@ -1,5 +1,6 @@
 import { apiCall } from '../../services/api';
 import { SET_CURRENT_USER } from '../actionTypes';
+// Action objects for adding and removing errors
 import { addError, removeError } from "./errors";
 
 export function setCurrentUser(user) {
@@ -17,16 +18,18 @@ export function authUser(type, userData) {
         return new Promise((resolve, reject) => {
             // Using axios api.js library, go ahead and send a request to signup a user
             return apiCall('post', `/api/auth/${type}`, userData)
-            // Destructure token into a separate variable and the rest of the arguments will be insite user object
+            // Destructure token into a separate variable and the rest of the arguments will be inside user object
             .then(({token, ...user}) => {
                 // Store the token received back from axios request into browser localStorage under jwtToken
                 localStorage.setItem('jwtToken', token);
                 // Create current user in the redux store
                 dispatch(setCurrentUser(user));
+                // Dispatch an action that removes an error in case if there currently is one from the past
                 dispatch(removeError());
                 resolve();
             })
             .catch(err => {
+                // Dispatch an action to add an error and pass on the error message to that action
                 dispatch(addError(err.message));
                 reject(); // indicate the API call failed
             });
