@@ -25,7 +25,12 @@ class AuthForm extends Component {
     const authType = this.props.signUp ? 'signup' : 'signin';
     this.props
       .onAuth (authType, this.state)
-      .then (() => console.log ('logged in!'));
+      .then (() => {
+        this.props.history.push('/');
+      })
+      .catch(() => {
+          return;
+      });
   };
 
   render () {
@@ -39,7 +44,7 @@ class AuthForm extends Component {
       removeError,
     } = this.props;
 
-    
+    history.listen(() => removeError());
 
     return (
       <div>

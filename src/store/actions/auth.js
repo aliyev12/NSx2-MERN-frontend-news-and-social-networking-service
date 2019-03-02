@@ -1,4 +1,4 @@
-import { apiCall } from '../../services/api';
+import { apiCall, setTokenHeader } from '../../services/api';
 import { SET_CURRENT_USER } from '../actionTypes';
 // Action objects for adding and removing errors
 import { addError, removeError } from "./errors";
@@ -9,6 +9,10 @@ export function setCurrentUser(user) {
         type: SET_CURRENT_USER,
         user: user
     }
+}
+
+export function setAuthorizationToken(token) {
+    setTokenHeader(token);
 }
 
 export function authUser(type, userData) {
@@ -22,6 +26,8 @@ export function authUser(type, userData) {
             .then(({token, ...user}) => {
                 // Store the token received back from axios request into browser localStorage under jwtToken
                 localStorage.setItem('jwtToken', token);
+                // Make it so that this token is sent will all future requests as long as user is loged in
+                setAuthorizationToken(token);
                 // Create current user in the redux store
                 dispatch(setCurrentUser(user));
                 // Dispatch an action that removes an error in case if there currently is one from the past
@@ -34,5 +40,18 @@ export function authUser(type, userData) {
                 reject(); // indicate the API call failed
             });
         });
+    }
+}
+
+export function logout() {
+    // Using a thunk to dispatch an action inside logout()
+    return dispatch => {
+        // When users are authenticated, browser's local storage contains the JWT tiken
+        // So, when logging out, clear out the local storage first
+        localStorage.clear();
+        // By passing false into this function, the token will not be attached to each future request until used logs in again
+        setAuthorizationToken(false);
+        // Dispatch setCurrentUser to be an empty object
+        dispatch(setCurrentUser({}));
     }
 }
