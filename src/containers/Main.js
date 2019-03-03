@@ -7,6 +7,8 @@ import {connect} from 'react-redux';
 import AuthForm from '../components/AuthForm';
 import {authUser} from '../store/actions/auth';
 import {removeError} from '../store/actions/errors';
+import withAuth from '../hocs/withAuth';
+import MessageForm from '../containers/MessageForm';
 
 const Main = props => {
   const {authUser, errors, removeError, currentUser} = props;
@@ -14,7 +16,11 @@ const Main = props => {
     <div className="container">
       <Switch>
         {/* HOMEPAGE ROUTE */}
-        <Route exact path="/" render={props => <Homepage currentUser={currentUser} {...props} />} />
+        <Route
+          exact
+          path="/"
+          render={props => <Homepage currentUser={currentUser} {...props} />}
+        />
         {/* SIGN IN ROUTE */}
         <Route
           exact
@@ -50,6 +56,8 @@ const Main = props => {
             );
           }}
         />
+        {/* NEW MESSAGE ROUTE */}
+        <Route path="/users/:id/messages/new" component={withAuth(MessageForm)} />
       </Switch>
     </div>
   );
@@ -58,10 +66,10 @@ const Main = props => {
 function mapStateToProps (state) {
   return {
     currentUser: state.currentUser,
-    errors: state.errors
+    errors: state.errors,
   };
 }
 
 export default withRouter (
-    connect (mapStateToProps, {authUser, removeError}) (Main)
-    );
+  connect (mapStateToProps, {authUser, removeError}) (Main)
+);

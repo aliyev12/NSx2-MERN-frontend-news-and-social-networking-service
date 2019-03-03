@@ -8,8 +8,10 @@ class MessageList extends Component {
     componentDidMount() {
         this.props.fetchMessages();
     }
+
     render() {
         const { messages } = this.props;
+        console.log(messages);
         let messageList = messages.map(m => (
             <MessageItem 
                 key={m._id} 
