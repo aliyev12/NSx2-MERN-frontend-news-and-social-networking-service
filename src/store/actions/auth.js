@@ -7,7 +7,7 @@ export function setCurrentUser(user) {
     // This will be dispatched and sent to redux reducer
     return {
         type: SET_CURRENT_USER,
-        user: user
+        user
     }
 }
 

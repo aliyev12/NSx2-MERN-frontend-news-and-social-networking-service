@@ -1,7 +1,7 @@
 export default function doesFileExist(urlToFile) {
     var xhr = new XMLHttpRequest();
-    xhr.open('HEAD', urlToFile, false);
-    xhr.send();
+     xhr.open('HEAD', urlToFile, false);
+     xhr.send();
      
     if (xhr.status == "404") {
         return false;

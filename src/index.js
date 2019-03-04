@@ -11,4 +11,4 @@ ReactDOM.render(<App />, document.getElementById('root'));
 // Learn more about service workers: http://bit.ly/CRA-PWA
 serviceWorker.unregister();
 // Temporary dev solution for clearing all the warnings from console
-setTimeout(() => console.clear(), 400);
+//setTimeout(() => console.clear(), 400);

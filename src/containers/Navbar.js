@@ -10,6 +10,7 @@ class Navbar extends Component {
         e.preventDefault();
         this.props.logout();
     }
+
   render() {
     return (
       <nav className="navbar navbar-expand">

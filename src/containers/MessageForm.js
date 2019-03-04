@@ -38,7 +38,7 @@ class MessageForm extends Component {
           value={this.state.message}
           onChange={this.onChange}
         />
-        <button type="submit" className="btn btn-success float-right">
+        <button type="submit" className="btn btn-success float-right mt-3">
             Add my message
         </button>
       </form>
