@@ -1,24 +1,26 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 // API call to load all the messages
-import { fetchMessages } from '../store/actions/messages';
+import { fetchMessages, removeMessage } from '../store/actions/messages';
 import MessageItem from '../components/MessageItem';
 
 class MessageList extends Component {
     componentDidMount() {
         this.props.fetchMessages();
     }
-
+    
     render() {
-        const { messages } = this.props;
-        console.log(messages);
+        const { messages, currentUser, removeMessage } = this.props;
         let messageList = messages.map(m => (
             <MessageItem 
                 key={m._id} 
                 date={m.createAt} 
                 text={m.text}
                 username={m.user.username}
+                userId={m.user._id}
                 profileImageUrl={m.user.profileImageUrl}
+                removeMessage={removeMessage.bind(this, m.user._id, m._id)}
+                isCorrectUser={currentUser === m.user._id}
             />
 
         ));
@@ -36,8 +38,9 @@ class MessageList extends Component {
 
 function mapStateToProps(state) {
     return {
-        messages: state.messages
+        messages: state.messages,
+        currentUser: state.currentUser.user.id
     };
 }
 
-export default connect(mapStateToProps, {fetchMessages})(MessageList);
+export default connect(mapStateToProps, {fetchMessages, removeMessage})(MessageList);
